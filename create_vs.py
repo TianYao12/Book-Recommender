@@ -20,7 +20,7 @@ def get_json_data() -> list:
 
     for b in books:
         documents.append(Document(page_content=b["description"],  # append each book's information to documents list
-                                  metadata={
+            metadata={
             "title": b["title"],
             "authors": b["authors"],
             "image": b["image_url"],
@@ -49,7 +49,7 @@ def get_vector_store(chunks: list, model: HuggingFaceInferenceAPIEmbeddings) -> 
     # Merge partial vector stores into one large vector store
     for partial_vs in tqdm(vsdatabase[1:]):
         vsdatabase[0].merge_from(partial_vs)
-    partial_vs.save_local("data/complete_vector_store")
+    vsdatabase[0].save_local("data/complete_vector_store")
 
 
 def main():

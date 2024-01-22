@@ -1,16 +1,9 @@
-"""BACKEND.PY
-This script finds Uwaterloo faculty members with bios that match your query
-Dependencies: `dotenv`, `langchain`, `faiss-cpu`
-"""
-
-# Load libraries
 import os
 import argparse
 from dotenv import load_dotenv
 from langchain.vectorstores.faiss import FAISS
 from langchain.embeddings.huggingface import HuggingFaceInferenceAPIEmbeddings
 
-# Load API key
 load_dotenv(".env")
 KEY = os.getenv("HUGGINGFACEHUB_API_TOKEN")
 

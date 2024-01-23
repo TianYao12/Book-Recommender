@@ -4,10 +4,9 @@ from dotenv import load_dotenv
 from langchain.embeddings.huggingface import HuggingFaceInferenceAPIEmbeddings
 from langchain.vectorstores.faiss import FAISS
 
-# Prep data
+# get huggingface api token
 load_dotenv(".env.local")
 KEY = os.getenv("HUGGINGFACEHUB_API_TOKEN")
-
 
 # Searches for the top 5 similar books for the search query
 def search(query: str, database: FAISS, k: int = 5) -> list:
@@ -55,6 +54,6 @@ if submit and query:
         col2.write("Description:")
         col2.write(result.page_content)
        
-
-else:
+# user presses submit and does not provide any prompt
+elif submit and not query:
     st.write("You didn't write anything. Please type something in")

@@ -8,14 +8,12 @@ from langchain.docstore.document import Document
 from langchain.embeddings import HuggingFaceInferenceAPIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-
 load_dotenv(".env.local")
 KEY = os.environ["HUGGINGFACEHUB_API_TOKEN"]
 
 # turns web-scrapped JSON documents into LangChain documents
 def get_json_data() -> list:
-    books = json.load(open("data/goodreads_books.json", "r")
-                      )  # get json data from file
+    books = json.load(open("data/goodreads_books.json", "r"))  
     documents = []
 
     for b in books:
@@ -30,15 +28,12 @@ def get_json_data() -> list:
     print(
         f"Loaded {len(documents)} documents\n Next we will split this into chunks")
 
-    # perhaps switch up these numbers later
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000, chunk_overlap=200)
     chunks = splitter.split_documents(documents)
     return chunks
 
-# turns document chunks into vectore stores
-
-
+# turns document chunks into vector stores
 def get_vector_store(chunks: list, model: HuggingFaceInferenceAPIEmbeddings) -> FAISS:
     vsdatabase = []
     for i in tqdm(range(0, len(chunks), 400)):
@@ -51,7 +46,6 @@ def get_vector_store(chunks: list, model: HuggingFaceInferenceAPIEmbeddings) -> 
         vsdatabase[0].merge_from(partial_vs)
     vsdatabase[0].save_local("data/complete_vector_store")
 
-
 def main():
     # load embeddings model
     model = HuggingFaceInferenceAPIEmbeddings(
@@ -62,6 +56,8 @@ def main():
     chunks = get_json_data()
     get_vector_store(chunks, model)
 
-
 if __name__ == "__main__":
     main()
+
+
+

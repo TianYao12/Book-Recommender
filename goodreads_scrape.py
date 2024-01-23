@@ -4,6 +4,7 @@ import json
 import numpy as np
 import time
 
+# scrape books from goodreads
 def scrape_book_info(book_id):
     url = f'https://www.goodreads.com/book/show/{book_id}'
 
@@ -16,20 +17,19 @@ def scrape_book_info(book_id):
 
     soup = BeautifulSoup(response.text, 'html.parser')
 
-    # Extracting information with error handling
+    # extracting information with error handling
     title_element = soup.select_one('h1[data-testid="bookTitle"]')
     image_element = soup.select_one('img[class="ResponsiveImage"]')
     description_element = soup.select_one('span[class="Formatted"]')
     author_elements = soup.find_all(
         'span', class_='ContributorLink__name', attrs={'data-testid': 'name'})
 
-    # Check if elements are present before extracting text or attributes
+    # check if elements are present before extracting text or attributes
     title = title_element.get_text(strip=True) if title_element else None
     image_url = image_element['src'] if image_element and 'src' in image_element.attrs else None
     description = description_element.get_text(
         strip=True) if description_element else None
     authors = list(set(author_element.get_text(strip=True) for author_element in author_elements))
-
 
     book_info = {
         'title': title,
@@ -52,7 +52,6 @@ def scrape_books(start_id, end_id, step):
         print(f'...waiting {round(lag,1)} seconds...')
         time.sleep(lag)
     return all_books_info
-
 
 if __name__ == "__main__":
     start_book_id = 1

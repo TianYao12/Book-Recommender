@@ -4,5 +4,5 @@ The data is webscrapped from Goodreads (book title, author(s), description, imag
 The user's prompt is also turned into vector stores and a FAISS similarity search on the data
 The frontend is done in Streamlit and returns the top 5 books along with their metadata ((book title, author(s), image)
 
-## Later:
+## Update:
 - Added a CRAG implementation to test on other web scrapped books
